@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>With You</title>
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
+
+<!-- Bootstrap -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+/* BODY & BACKGROUND */
+body{
+    margin:0;
+    min-height:100vh;
+    font-family: 'Nunito', sans-serif;
+    background: linear-gradient(135deg,#fde2e4,#e2f0fb,#e8f8f5,#fef6e4,#f3e8ff);
+    background-size: 400% 400%;
+    animation: bgFlow 18s ease infinite;
+    overflow-x:hidden;
+}
+@keyframes bgFlow{
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+
+/* NAVBAR */
+.memory-navbar{
+    background: rgba(255,255,255,0.4);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+    height: 85px;
+}
+.brand-title{
+    font-family: 'Outfit', sans-serif;
+    font-size: 30px;
+    font-weight: 600;
+    color: #3a4f7a;
+}
+
+/* HERO */
+.hero-title{
+    font-family:'Outfit';
+    font-size:52px;
+    color:#2c3e5f;
+}
+.hero-text{
+    font-size:18px;
+    color:#4a5f7a;
+    max-width:650px;
+}
+.enter-btn{
+    background:#2c3e5f;
+    color:white;
+    border:none;
+    padding:12px 30px;
+    border-radius:30px;
+    transition:0.3s;
+}
+.enter-btn:hover{
+    background:#1f2f4a;
+    transform: translateY(-3px);
+}
+
+/* LOGIN */
+.login-overlay{
+    position:fixed;
+    top:0;left:0;
+    width:100%;height:100%;
+    background:rgba(0,0,0,0.5);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:10000;
+}
+.login-box{
+    background:white;
+    padding:35px;
+    border-radius:15px;
+    width:320px;
+    text-align:center;
+    box-shadow:0 10px 40px rgba(0,0,0,0.2);
+}
+.login-box h3{
+    font-family:'Outfit';
+    color:#2c3e5f;
+}
+.login-box input{
+    width:100%;
+    padding:10px;
+    margin:8px 0;
+    border-radius:8px;
+    border:1px solid #ccc;
+}
+.login-btn{
+    background:#2c3e5f;
+    color:white;
+    border:none;
+    width:100%;
+    padding:10px;
+    border-radius:8px;
+}
+.error-text{color:red;font-size:14px;margin-top:8px;}
+
+#mainContent{display:none}
+
+/* SECTIONS */
+.memory-section{
+    min-height:100vh;
+    padding:100px 10%;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
+.section-title{
+    font-family:'Outfit';
+    font-size:42px;
+    color:#2c3e5f;
+    text-align:center;
+    margin-bottom:40px;
+    opacity:0;
+    transform: translateY(20px);
+    transition: 0.8s ease;
+}
+
+/* STORY */
+.story-text{
+    font-size:18px;
+    line-height:1.9;
+    color:#3e4f6a;
+    white-space:pre-line;
+}
+
+/* LOVE CARDS */
+.love-grid{
+    display:grid;
+    grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+    gap:25px;
+    max-width:900px;
+    margin:auto;
+}
+.love-card{
+    padding:25px 20px;
+    border-radius:18px;
+    text-align:center;
+    font-size:18px;
+    font-weight:600;
+    font-family:'Outfit';
+    color:#2c3e5f;
+    box-shadow:0 8px 25px rgba(0,0,0,0.08);
+    opacity:0;
+    transform: translateY(30px);
+    transition:0.4s;
+}
+.love-card.reveal{opacity:1;transform:translateY(0)}
+.love-card:hover{transform:translateY(-8px) scale(1.03)}
+.pastel1{background:#fde2e4}
+.pastel2{background:#e2f0fb}
+.pastel3{background:#e8f8f5}
+.pastel4{background:#fef6e4}
+.pastel5{background:#f3e8ff}
+.pastel6{background:#ffe5f1}
+
+/* MEMORIES */
+.memories-grid{
+    display:grid;
+    grid-template-columns: repeat(auto-fit,minmax(240px,1fr));
+    gap:30px;
+    max-width:1000px;
+    margin:auto;
+}
+.memory-card{
+    background: rgba(255,255,255,0.7);
+    backdrop-filter: blur(10px);
+    border-radius:20px;
+    padding:20px;
+    text-align:center;
+    box-shadow:0 10px 30px rgba(0,0,0,0.08);
+    opacity:0;
+    transform: translateY(40px);
+    transition:0.4s;
+}
+.memory-card.reveal{opacity:1;transform:translateY(0)}
+.memory-card:hover{transform:translateY(-10px) scale(1.03)}
+.memory-img{
+    width:100%;
+    height:230px;
+    overflow:hidden;
+    border-radius:15px;
+}
+.memory-img img{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+}
+.memory-card p{
+    margin-top:10px;
+    font-family:'Outfit';
+    color:#2c3e5f;
+}
+
+/* UNSAID */
+.unsaid-grid{
+    display:grid;
+    grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
+    gap:25px;
+    max-width:1000px;
+    margin:auto;
+}
+.unsaid-card{
+    background: rgba(255,255,255,0.7);
+    backdrop-filter: blur(12px);
+    border-radius:18px;
+    padding:20px;
+    font-size:15px;
+    font-family:'Outfit';
+    color:#2c3e5f;
+    box-shadow:0 10px 30px rgba(0,0,0,0.08);
+    opacity:0;
+    transform: translateY(40px);
+    transition:0.4s;
+}
+.unsaid-card.reveal{opacity:1;transform:translateY(0)}
+
+/* STEP VIDEO */
+.step-video-section {
+  max-width: 900px;
+  margin: 60px auto;
+  padding: 50px 20px;
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  opacity: 0;
+  transform: translateY(40px);
+  transition: 0.6s ease;
+}
+.step-video-section.reveal {
+  opacity: 1;
+  transform: translateY(0);
+}
+.video-wrapper {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  border-radius: 15px;
+  margin-bottom: 20px;
+}
+.video-wrapper video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 15px;
+}
+.video-description {
+  font-size: 18px;
+  color: #3e4f6a;
+  max-width: 700px;
+  margin: auto;
+  line-height: 1.7;
+}
+
+/* Final Note Section Styling */
+.final-note-section {
+  max-width: 850px;
+  margin: 60px auto;
+  padding: 50px 30px;
+  background: rgba(255,255,255,0.8);
+  backdrop-filter: blur(12px);
+  border-radius: 25px;
+  text-align: center;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+  opacity: 0;
+  transform: translateY(40px);
+  transition: 0.6s ease;
+}
+.final-note-section.reveal-card {
+  opacity: 1;
+  transform: translateY(0);
+}
+.final-note-section .story-text {
+  font-size: 20px;
+  line-height: 1.8;
+  color: #2c3e5f;
+}
+
+/* General fade-up animation */
+@keyframes fadeUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Hover zoom & shadow effect for all cards */
+.reveal-card:hover {
+  transform: translateY(-10px) scale(1.05);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+}
+
+/* Emoji bounce animation for hero & final note */
+@keyframes bounceEmoji {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+.hero-title::after {
+  content: "🤍";
+  display: inline-block;
+  margin-left: 10px;
+  animation: bounceEmoji 2s infinite;
+}
+.final-note-section .story-text::after {
+  content: "😄🎬";
+  display: inline-block;
+  margin-left: 8px;
+  animation: bounceEmoji 2s infinite;
+}
+
+/* Smooth transition for section titles */
+.section-title.reveal {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Add subtle sparkle animation for love cards */
+@keyframes sparkle {
+  0%,100% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+}
+.love-card.reveal {
+  animation: sparkle 1.2s ease-in-out forwards;
+}
+
+/* Memory & Unsaid cards fade with delay */
+.memory-card.reveal, .unsaid-card.reveal {
+  animation: fadeUp 0.8s ease forwards;
+}
+
+/* Floating Hearts - Vertical */
+.hearts-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: -1; /* put hearts behind all content */
+}
+.heart {
+  position: absolute;
+  bottom: -20px;
+  width: 20px;
+  height: 20px;
+  background-color: #ff6b81;
+  transform: rotate(45deg);
+  animation: floatUp linear infinite;
+}
+.heart::before,
+.heart::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-color: inherit;
+  border-radius: 50%;
+}
+.heart::before { top: -10px; left: 0; }
+.heart::after { left: 10px; top: 0; }
+@keyframes floatUp {
+  0% { transform: translateY(0) rotate(45deg) scale(0.8); opacity: 0; }
+  10% { opacity: 1; }
+  100% { transform: translateY(-120vh) rotate(45deg) scale(1); opacity: 0; }
+}
+
+/* ===== RESPONSIVE MEDIA QUERIES ===== */
+@media (max-width: 1024px){
+    .memory-section { padding:80px 8%; }
+    .hero-title{ font-size:44px; }
+    .hero-text{ font-size:17px; max-width:90%; }
+    .section-title{ font-size:36px; margin-bottom:30px; }
+    .love-grid,.memories-grid,.unsaid-grid{ gap:20px; }
+}
+
+@media (max-width: 768px){
+    .memory-section { padding:60px 5%; }
+    .hero-title{ font-size:32px; }
+    .hero-text{ font-size:16px; max-width:90%; }
+    .enter-btn{ padding:10px 25px; font-size:14px; }
+    .section-title{ font-size:28px; margin-bottom:25px; }
+    .love-grid,.memories-grid,.unsaid-grid{ grid-template-columns: repeat(auto-fit,minmax(180px,1fr)); gap:15px; }
+    .memory-card .memory-img img{ height:180px; }
+    .memory-card,.love-card,.unsaid-card{ font-size:16px; padding:15px; }
+    .step-video-section,.final-note-section{ padding:30px 15px; max-width:95%; }
+    .video-description{ font-size:16px; }
+    .final-note-section .story-text{ font-size:16px; }
+    .memory-navbar{ height:65px; }
+    .brand-title{ font-size:22px; }
+}
+</style>
+
+</head>
+
+<body>
+<!-- Floating Hearts -->
+<div class="hearts-container"></div>
+
+
+<!-- NAVBAR -->
+<nav class="navbar memory-navbar w-100">
+<div class="container-fluid">
+<span class="brand-title">With You</span>
+</div>
+</nav>
+
+<!-- HERO -->
+<div class="d-flex flex-column justify-content-center align-items-center text-center" style="height:90vh;">
+<h1 class="hero-title">Three Years of Memories</h1>
+<p class="hero-text">
+Not just memories, not just moments —  
+but a story, a bond, a connection that time only made stronger.
+</p>
+<button class="enter-btn mt-4" onclick="openLogin()">Enter Our Story →</button>
+</div>
+
+<!-- LOGIN -->
+<div class="login-overlay" id="loginOverlay">
+<div class="login-box">
+<h3>Secret Entry 🔐</h3>
+<input type="text" id="username" placeholder="Username">
+<input type="password" id="password" placeholder="Password">
+<button class="login-btn" onclick="checkLogin()">Enter</button>
+<div class="error-text" id="errorMsg"></div>
+</div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div id="mainContent">
+
+<!-- STORY -->
+<section class="memory-section">
+<h2 class="section-title">📖 Our Story</h2>
+<div class="story-text">
+Hey Sadha Kalaivanan 🤍,
+
+I met you in college, but for the first two or three months, I didn’t even talk to you.
+I don’t know why — maybe because of Varishma, I started seeing you more, and that’s how we started talking.
+
+At first, I talked to you with my kadi jokes 😅
+But later, just to talk to you, I started searching so many kadi jokes —
+sending them to you on WhatsApp just to make you laugh.
+I don’t know if you remember that,
+but that’s when I started liking you so much —
+not in a romantic way,
+but in a “you feel safe to me” way.
+
+Then slowly, we started talking more and more.
+Even now I don’t understand how we talked so much in the beginning —
+but maybe that’s what made our bond so close.
+
+One of my most special memories is the simple drawing you gave me
+with the note “Advance Happy Birthday.”
+That was the first thing I ever got from you,
+and even now, it stays in a special place.
+I even wrote about you on that drawing paper —
+because that memory mattered that much to me.
+
+When I think about my college life,
+I will always say my second year is my favourite year,
+because most of my days were with you —
+the laughter days,
+the happy days,
+the fighting days,
+the teasing days,
+all of it.
+
+We spent so much time together,
+and every day felt easy with you.
+
+The day we went to the mall with our friends —
+that memory is still so special to me,
+not because of the place,
+but because of the time we spent together.
+It was simple, but it was happy.
+
+Then came third year —
+a real rollercoaster of emotions in our friendship.
+
+Some people had problems with our bond.
+They always pointed at us and said,
+“Both are always together,”
+“You have Sadha, and Sadha has you.”
+That made me so angry,
+because I never understood
+why people always needed to comment on our friendship.
+
+I also made a silly mistake —
+not a big one,
+but something that made us stop talking for some days.
+Honestly, I said it in flow,
+and I never wanted to hurt you.
+If it hurt you, I am truly sorry for that 🤍
+
+After that, we didn’t talk like we did in second year,
+but still —
+whenever someone talks about you,
+inside me, I am still the same person I was in second year.
+
+Even now, I seriously want to surprise you —
+going to Starbucks with you,
+buying you a golden retriever,
+getting you your favourite foods,
+buying all the drawing items you love.
+In the future, I will definitely try to do all of this for you.
+
+At the end of everything,
+we fought the most,
+we enjoyed the most,
+and all my happiest college memories
+still have you in them.
+
+Even if we don’t talk like before,
+I always try to stay the same as before —
+because the bond matters to me.
+
+And I still want to create more memories with you,
+just like before,
+still together,
+still real,
+still us —
+by your _? 🤍
+
+</div>
+</section>
+
+<!-- LOVE -->
+<section class="memory-section">
+<h2 class="section-title">Things I Love About You 🤍</h2>
+<div class="love-grid">
+<div class="love-card pastel1 reveal-card">Your anger + care</div>
+<div class="love-card pastel2 reveal-card">Your smile</div>
+<div class="love-card pastel3 reveal-card">Your attitude</div>
+<div class="love-card pastel4 reveal-card">Your creativity</div>
+<div class="love-card pastel5 reveal-card">The way you are with me</div>
+<div class="love-card pastel6 reveal-card">Handling responsibility</div>
+</div>
+</section>
+
+<!-- MEMORIES -->
+<section class="memory-section">
+<h2 class="section-title">Our Memories 🤍</h2>
+<div class="memories-grid">
+<!-- Add memory cards here -->
+ <div class="memory-card reveal-card"><div class="memory-img"><img src="s1.jpeg"></div><p>🤍 Intra-college One :) 🤍</p></div>
+<div class="memory-card reveal-card"><div class="memory-img"><img src="s2.jpeg"></div><p>🤍 Planned, unforgettable  🤍</p></div>
+<div class="memory-card reveal-card"><div class="memory-img"><img src="s3.jpeg"></div><p>🤍 Thee Candid One 🤍</p></div>
+<div class="memory-card reveal-card"><div class="memory-img"><img src="s4.jpeg"></div><p>🤍 Just Us Being Us 🤍</p></div>
+<div class="memory-card reveal-card"><div class="memory-img"><img src="s5.jpeg"></div><p>🤍 Saree One 🤍</p></div>
+<div class="memory-card reveal-card"><div class="memory-img"><img src="s6.jpeg"></div><p>🤍 Annual Day! 🤍</p></div>
+
+</div>
+</section>
+
+<!-- UNSAID -->
+<section class="memory-section">
+<h2 class="section-title">Unsaid Things 🤍</h2>
+<div class="unsaid-grid">
+<!-- Add unsaid cards here -->
+ <div class="unsaid-card reveal-card">
+Always keep that bright smile — when you do, you look so beautiful.
+</div>
+
+<div class="unsaid-card reveal-card">
+I like you so much because you always speak your thoughts — you never worry about what others will say.
+</div>
+
+<div class="unsaid-card reveal-card">
+Sometimes when you’re angry, you say a few words that others misunderstand — even though you never mean them that way. 🤍
+</div>
+
+<div class="unsaid-card reveal-card">
+My most special one: when I had a fracture in my hand, you prayed to God for me with one rupee — that meant so much to me 🤍
+</div>
+
+<div class="unsaid-card reveal-card">
+When you went for the night shift, I stayed awake until you reached home —  
+not for safety, but because of to know how long you worked.  
+So my small request is: take one day leave, do your favorite hobby, and just relax.
+</div>
+
+<div class="unsaid-card reveal-card">
+You manage your work so well and balance both studies and work beautifully.  
+I just want to say — you’re doing a great job. 💛
+</div>
+</section>
+
+<!-- STEP VIDEO -->
+<section class="step-video-section">
+  <h2 class="section-title">🎬 Edited One</h2>
+  <div class="video-wrapper">
+    <video controls>
+      <source src="v.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+  <p class="video-description">
+    I'm new to editing, so please adjust, bro 😅
+  </p>
+</section>
+
+<section class="memory-section final-note-section reveal-card">
+  <h2 class="section-title">💌 Final Note</h2>
+  <p class="story-text">
+    Can’t believe how far we’ve come, bro 🤍<br>
+    From random jokes to endless chats, every moment with you is unforgettable.<br>
+    Here’s to more laughs, more adventures, and more memories we’ll never forget 😄🎬<br>
+    Love having you by my side!
+  </p>
+</section>
+
+
+<script>
+/* LOGIN */
+function openLogin(){
+    document.getElementById("loginOverlay").style.display="flex";
+}
+function checkLogin(){
+    const user=document.getElementById("username").value.trim();
+    const pass=document.getElementById("password").value.trim();
+
+    if(user==="sadha" && pass==="happy girl"){
+        document.getElementById("loginOverlay").style.display="none";
+        document.getElementById("mainContent").style.display="block";
+        document.querySelector(".enter-btn").style.display="none";
+        window.scrollTo({top:0,behavior:'smooth'});
+    }else{
+        document.getElementById("errorMsg").innerText="Wrong username or password 💔";
+    }
+}
+
+// Animate section titles immediately
+const sectionTitles = document.querySelectorAll(".section-title");
+const titleObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      entry.target.classList.add("reveal");
+      titleObserver.unobserve(entry.target); // stop observing after reveal
+    }
+  });
+}, {threshold: 0.1}); // lower threshold triggers faster
+
+sectionTitles.forEach(title => titleObserver.observe(title));
+
+
+// Animate cards with delay
+const memorySections = document.querySelectorAll(".memory-section");
+const cardObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      const cards = entry.target.querySelectorAll(".reveal-card");
+      cards.forEach((card, i) => setTimeout(() => { card.classList.add("reveal"); }, i*150));
+      cardObserver.unobserve(entry.target); // stop observing after reveal
+    }
+  });
+}, {threshold: 0.2});
+
+memorySections.forEach(section => cardObserver.observe(section));
+
+
+
+/* ANIMATION FOR VIDEO SECTION */
+const videoSection=document.querySelector(".step-video-section");
+const videoObserver=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      entry.target.classList.add("reveal");
+    }
+  });
+},{threshold:0.3});
+videoObserver.observe(videoSection);
+
+const heartsContainer = document.querySelector('.hearts-container');
+
+function createHeart() {
+  const heart = document.createElement('div');
+  heart.classList.add('heart');
+
+  // Random horizontal position
+  heart.style.left = Math.random() * 100 + 'vw';
+
+  // Random size
+  const size = 10 + Math.random() * 15; // 10px to 25px
+  heart.style.width = size + 'px';
+  heart.style.height = size + 'px';
+
+  // Random color
+  heart.style.backgroundColor = ['#ff6b81','#ff9a76','#ffb347','#ff7eb9'][Math.floor(Math.random()*4)];
+
+  // Random speed
+  heart.style.animationDuration = (4 + Math.random() * 4) + 's'; // 4s to 8s
+
+  heartsContainer.appendChild(heart);
+
+  // Remove heart after animation
+  setTimeout(() => {
+    heart.remove();
+  }, 8000); // match animation duration
+}
+
+// Create hearts at intervals
+setInterval(createHeart, 300); // every 0.3s
+
+
+
+</script>
+
+</body>
+</html>
