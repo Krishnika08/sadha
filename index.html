@@ -122,9 +122,6 @@ body{
     color:#2c3e5f;
     text-align:center;
     margin-bottom:40px;
-    opacity:0;
-    transform: translateY(20px);
-    transition: 0.8s ease;
 }
 
 /* STORY */
@@ -282,10 +279,12 @@ body{
   transform: translateY(40px);
   transition: 0.6s ease;
 }
+
 .final-note-section.reveal-card {
   opacity: 1;
   transform: translateY(0);
 }
+
 .final-note-section .story-text {
   font-size: 20px;
   line-height: 1.8;
@@ -322,10 +321,17 @@ body{
 }
 
 /* Smooth transition for section titles */
+.section-title {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: 0.8s ease;
+}
 .section-title.reveal {
   opacity: 1;
   transform: translateY(0);
 }
+
+
 
 /* Add subtle sparkle animation for love cards */
 @keyframes sparkle {
@@ -352,15 +358,18 @@ body{
   overflow: hidden;
   z-index: -1; /* put hearts behind all content */
 }
+
+
 .heart {
   position: absolute;
-  bottom: -20px;
+  bottom: -20px; /* Start slightly below view */
   width: 20px;
   height: 20px;
   background-color: #ff6b81;
   transform: rotate(45deg);
   animation: floatUp linear infinite;
 }
+
 .heart::before,
 .heart::after {
   content: '';
@@ -370,40 +379,187 @@ body{
   background-color: inherit;
   border-radius: 50%;
 }
-.heart::before { top: -10px; left: 0; }
-.heart::after { left: 10px; top: 0; }
+
+.heart::before {
+  top: -10px;
+  left: 0;
+}
+
+.heart::after {
+  left: 10px;
+  top: 0;
+}
+
 @keyframes floatUp {
   0% { transform: translateY(0) rotate(45deg) scale(0.8); opacity: 0; }
   10% { opacity: 1; }
   100% { transform: translateY(-120vh) rotate(45deg) scale(1); opacity: 0; }
 }
 
-/* ===== RESPONSIVE MEDIA QUERIES ===== */
-@media (max-width: 1024px){
-    .memory-section { padding:80px 8%; }
-    .hero-title{ font-size:44px; }
-    .hero-text{ font-size:17px; max-width:90%; }
-    .section-title{ font-size:36px; margin-bottom:30px; }
-    .love-grid,.memories-grid,.unsaid-grid{ gap:20px; }
+
+/* ===================== RESPONSIVE MEDIA QUERIES ===================== */
+
+/* Tablets / Small Laptops (width <= 1024px) */
+@media (max-width: 1024px) {
+    body {
+        overflow-x: hidden;
+    }
+
+    /* HERO */
+    .hero-title {
+        font-size: 42px;
+    }
+    .hero-text {
+        font-size: 16px;
+        max-width: 80%;
+    }
+    .enter-btn {
+        padding: 10px 25px;
+        font-size: 16px;
+    }
+
+    /* SECTIONS */
+    .memory-section {
+        padding: 70px 6%;
+    }
+    .section-title {
+        font-size: 34px;
+        margin-bottom: 30px;
+    }
+
+    /* LOVE GRID */
+    .love-grid {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 20px;
+    }
+    .love-card {
+        font-size: 16px;
+        padding: 20px 15px;
+    }
+
+    /* MEMORIES GRID */
+    .memories-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+    }
+    .memory-img {
+        height: 200px;
+    }
+    .memory-card p {
+        font-size: 14px;
+    }
+
+    /* UNSAID GRID */
+    .unsaid-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+    }
+    .unsaid-card {
+        font-size: 14px;
+        padding: 18px;
+    }
+
+    /* VIDEO SECTION */
+    .step-video-section {
+        padding: 40px 15px;
+    }
+    .video-description {
+        font-size: 16px;
+    }
+
+    /* FINAL NOTE */
+    .final-note-section {
+        padding: 40px 20px;
+    }
+    .final-note-section .story-text {
+        font-size: 18px;
+    }
 }
 
-@media (max-width: 768px){
-    .memory-section { padding:60px 5%; }
-    .hero-title{ font-size:32px; }
-    .hero-text{ font-size:16px; max-width:90%; }
-    .enter-btn{ padding:10px 25px; font-size:14px; }
-    .section-title{ font-size:28px; margin-bottom:25px; }
-    .love-grid,.memories-grid,.unsaid-grid{ grid-template-columns: repeat(auto-fit,minmax(180px,1fr)); gap:15px; }
-    .memory-card .memory-img img{ height:180px; }
-    .memory-card,.love-card,.unsaid-card{ font-size:16px; padding:15px; }
-    .step-video-section,.final-note-section{ padding:30px 15px; max-width:95%; }
-    .video-description{ font-size:16px; }
-    .final-note-section .story-text{ font-size:16px; }
-    .memory-navbar{ height:65px; }
-    .brand-title{ font-size:22px; }
+/* Mobile Phones (width <= 480px) */
+@media (max-width: 480px) {
+    body {
+        overflow-x: hidden;
+    }
+
+    /* HERO */
+    .hero-title {
+        font-size: 32px;
+    }
+    .hero-text {
+        font-size: 14px;
+        max-width: 90%;
+    }
+    .enter-btn {
+        padding: 8px 20px;
+        font-size: 14px;
+    }
+
+    /* SECTIONS */
+    .memory-section {
+        padding: 50px 4%;
+    }
+    .section-title {
+        font-size: 28px;
+        margin-bottom: 20px;
+    }
+
+    /* LOVE GRID */
+    .love-grid {
+        grid-template-columns: 1fr; /* stack vertically */
+        gap: 15px;
+    }
+    .love-card {
+        font-size: 15px;
+        padding: 18px 12px;
+    }
+
+    /* MEMORIES GRID */
+    .memories-grid {
+        grid-template-columns: 1fr; /* stack vertically */
+        gap: 15px;
+    }
+    .memory-img {
+        height: 180px;
+    }
+    .memory-card p {
+        font-size: 13px;
+    }
+
+    /* UNSAID GRID */
+    .unsaid-grid {
+        grid-template-columns: 1fr; /* stack vertically */
+        gap: 15px;
+    }
+    .unsaid-card {
+        font-size: 13px;
+        padding: 15px;
+    }
+
+    /* VIDEO SECTION */
+    .step-video-section {
+        padding: 30px 10px;
+    }
+    .video-description {
+        font-size: 14px;
+    }
+
+    /* FINAL NOTE */
+    .final-note-section {
+        padding: 30px 15px;
+    }
+    .final-note-section .story-text {
+        font-size: 16px;
+    }
+
+    /* HERO HEIGHT ADJUSTMENT */
+    .d-flex.flex-column.justify-content-center.align-items-center.text-center {
+        height: auto;
+        padding: 60px 10px;
+    }
 }
+
 </style>
-
 </head>
 
 <body>
